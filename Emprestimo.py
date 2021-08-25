@@ -5,7 +5,7 @@ class Emprestimo(object):
 
     def __init__(self, nomeCliente, nomeloja, quantidade, modalidade) -> None:
         self.nome = nomeCliente
-        self.loja = nomeloja
+        self.loja = nomeloja    # Loja de retirada das bicicletas
         self.quantidade = quantidade
         self.modalidade = modalidade
         self.retirada = datetime.now().astimezone(self.HORARIO_BRASILIA)

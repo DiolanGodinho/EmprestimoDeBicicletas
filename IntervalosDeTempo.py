@@ -1,6 +1,8 @@
 from datetime import timedelta
 
+
 temposDeEmprestimo = [
+    # Intervalos de tempo para simular empréstimos de bicicletas.
     timedelta(days=2, hours=1, minutes= 50),
     timedelta(days=3, hours=6, minutes= 40),
     timedelta(days=4, hours=11, minutes= 30),
