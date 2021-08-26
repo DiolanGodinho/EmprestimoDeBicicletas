@@ -5,9 +5,12 @@ from IntervalosDeTempo import temposDeEmprestimo
 from Emprestimo import Emprestimo
 
 class Loja(object):
-    VALOR_HORA = 5
-    VALOR_DIA = 25
-    VALOR_SEMANA = 100
+
+    VALOR_POR_MODALIDADE = {
+        "Hora": 5,
+        "Dia": 25,
+        "Semana": 100
+    }
     MODALIDADES_DISPONIVEIS = ["Hora", "Dia", "Semana"]
 
     def __init__(self, nome, estoque) -> None:
@@ -22,148 +25,144 @@ class Loja(object):
         Devolve True se o pedido for aceito e False em caso contrário.
         '''
         try:
-            if not (isinstance(nomeCliente, str) and isinstance(quantidade, int) and isinstance(modalidade, str)):
-                raise TypeError("tipos de parâmetros inválidos.")
+            if not (isinstance(nomeCliente, str) and isinstance(int(quantidade), int) and isinstance(modalidade, str)):
+                raise TypeError("tipos de parâmetros inválidos")
             
             if quantidade <= 0:
-                raise ValueError("quantidade de bicicletas inválida.")
+                raise ValueError("quantidade de bicicletas inválida")
 
             if modalidade not in self.MODALIDADES_DISPONIVEIS:
-                raise ValueError("modalidade Inválida.")
+                raise ValueError("modalidade Inválida")
 
             if quantidade > self.estoque:
-                raise SystemError("estoque indisponível.")
+                raise SystemError("estoque indisponível")
 
-            print(f"Loja: pedido de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} aceito.")
-            self.emprestaBicicletas(nomeCliente, quantidade, modalidade)
+            print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} aceito.")
             return True
             
         except TypeError as error:
-            print(f"Loja: pedido de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
+            print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
             return False
 
         except ValueError as error:
-            print(f"Loja: pedido de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
+            print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
             return False
 
         except SystemError as error:
-            print(f"Loja: pedido de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
+            print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: {error}.")
             return False
 
         except:
-            print(f"Loja: pedido de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: desconhecido.")
+            print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} não aceito. Motivo: desconhecido.")
             return False
 
     def emprestaBicicletas(self, nomeCliente, quantidade, modalidade):
         '''
         Recebe uma string nomeCliente, um inteiro quantidade e uma string modalidade. 
-        Devolve o inteiro quantidade de bicicletas no estoque se o empréstimo for efetuado e -1 em caso contrário.
+        Devolve o inteiro quantidade de bicicletas emprestadas se o empréstimo for efetuado e 0 em caso contrário.
         '''
         try:
-            if not (isinstance(nomeCliente, str) and isinstance(quantidade, int) and isinstance(modalidade, str)):
-                raise TypeError("tipos de parâmetros inválidos.")
+            if not (isinstance(nomeCliente, str) and isinstance(int(quantidade), int) and isinstance(modalidade, str)):
+                raise TypeError("tipos de parâmetros inválidos")
             
             if quantidade <= 0:
-                raise ValueError("quantidade de bicicletas inválida.")
+                raise ValueError("quantidade de bicicletas inválida")
 
             if modalidade not in self.MODALIDADES_DISPONIVEIS:
-                raise ValueError("Modalidade Inválida.")
+                raise ValueError("Modalidade Inválida")
 
             if quantidade > self.estoque:
-                raise SystemError("estoque indisponível.")
+                raise SystemError("estoque indisponível")
 
             if nomeCliente in self.emprestimos:
-                raise SystemError("cliente com empréstimo em andamento.")
+                raise SystemError("cliente com empréstimo em andamento")
 
-            print(f"Loja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} efetuado com sucesso. Estoque {self.estoque}")
             self.estoque -= quantidade
             self.emprestimos[nomeCliente] = Emprestimo(nomeCliente, self.nome, quantidade, modalidade)
 
-            return self.estoque
+            print(f"\nLoja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} efetuado com sucesso. Estoque {self.estoque}.")
+
+            return quantidade
             
         except TypeError as error:
-            print(f"Loja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
-            return -1
+            print(f"\nLoja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
+            return 0
 
         except ValueError as error:
-            print(f"Loja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
-            return -1
+            print(f"\nLoja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
+            return 0
 
         except SystemError as error:
-            print(f"Loja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: {error}.")
-            return -1
+            print(f"\nLoja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: {error}.")
+            return 0
 
         except:
-            print(f"Loja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: desconhecido")
-            return -1
+            print(f"\nLoja: empréstimo de {quantidade} bicicletas na modalidade {modalidade} para {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: desconhecido")
+            return 0
 
-    def recebeBicicletas(self, nomeCliente, quantidade):
+    def recebeBicicletas(self, nomeCliente):
         '''
-        Recebe uma string nomeCliente e um inteiro quantidade. 
-        Devolve o inteiro quantidade de bicicletas no estoque se o recebimento das bicicletas for efetuado e -1 em caso contrário.
+        Recebe uma string nomeCliente. 
+        Devolve o inteiro quantidade devolvida se o recebimento das bicicletas for efetuado e 0 em caso contrário.
         '''
         try:
-            if not (isinstance(nomeCliente, str) and isinstance(quantidade, int)):
-                raise TypeError("tipos de parâmetros inválidos.")
-            
-            if quantidade <= 0:
-                raise ValueError("quantidade de bicicletas inválida.")
+            if not isinstance(nomeCliente, str):
+                raise TypeError("tipos de parâmetros inválidos")
 
             if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise SystemError("cliente não possui empréstimo em seu nome")
 
-            if quantidade > self.emprestimos[nomeCliente][quantidade]:
-                raise SystemError("quantidade de bicicletas maior do que emprestadas.")
+            quantidadeDevolvida = self.emprestimos[nomeCliente].quantidade
+            self.estoque += quantidadeDevolvida
 
-            self.estoque += quantidade
-            self.finalizaEmprestimo(self, nomeCliente)
-            print(f"Loja: recebimento de {quantidade} bicicletas do {nomeCliente} na loja {self.nome} efetuado com sucesso. Estoque {self.estoque}.")
+            print(f"\nLoja: recebimento de {quantidadeDevolvida} bicicletas do {nomeCliente} na loja {self.nome} efetuado com sucesso. Estoque {self.estoque}.")
+
+            self.finalizaEmprestimo(nomeCliente)
             
-            return self.estoque
+            return quantidadeDevolvida
 
         except TypeError as error:
-            print(f"Loja: recebimento de {quantidade} bicicletas do {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
-            return -1
-
-        except ValueError as error:
-            print(f"Loja: recebimento de {quantidade} bicicletas do {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
-            return -1
+            print(f"\nLoja: recebimento da(s) bicicleta(s) em nome de {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo {error}.")
+            return 0
 
         except SystemError as error:
-            print(f"Loja: recebimento de {quantidade} bicicletas do {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: {error}.")
-            return -1
+            print(f"\nLoja: recebimento da(s) bicicleta(s) em nome de {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: {error}.")
+            return 0
 
         except:
-            print(f"Loja: recebimento de {quantidade} bicicletas do {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: desconhecido")
-            return -1
+            print(f"\nLoja: recebimento da(s) bicicleta(s) em nome de {nomeCliente} na loja {self.nome} não efetuado. Estoque {self.estoque}. Motivo: desconhecido")
+            return 0
 
     def finalizaEmprestimo(self, nomeCliente):
         '''
-        Recebe uma string nomeCliente. 
+        Recebe uma string nomeCliente.
         Devolve True se o empréstimo for finalizado e False em caso contrário.
         '''
         try:
             if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
-            
-            if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise TypeError("tipos de parâmetros inválidos")
 
-            self.emprestimos[nomeCliente]["devolucao"] += choice(temposDeEmprestimo)
-            self.emprestimos[nomeCliente]["valor"] = self.calculaValorEmprestimo(nomeCliente)
-            print(f"Loja: empréstimo de {nomeCliente} na loja {self.nome} finalizado com sucesso.")
+            if nomeCliente not in self.emprestimos:
+                raise SystemError("cliente não possui empréstimo em seu nome")
+
+            self.emprestimos[nomeCliente].devolucao += timedelta(weeks=1, days=1, hours=4) #choice(temposDeEmprestimo)
+            devolucao = self.emprestimos[nomeCliente].devolucao
+            self.emprestimos[nomeCliente].valor = self.calculaValorEmprestimo(nomeCliente)
+
+            print(f"\nLoja: empréstimo de {nomeCliente} na loja {self.nome} finalizado em {devolucao.strftime('%d/%m/%Y %H:%M')} com sucesso.")
+
             return True
 
         except TypeError as error:
-            print(f"Loja: empréstimo de {nomeCliente} na loja {self.nome} não finalizado. Motivo {error}.")
+            print(f"\nLoja: empréstimo em nome de {nomeCliente} na loja {self.nome} não finalizado. Motivo {error}.")
             return False
-
+        
         except SystemError as error:
-            print(f"Loja: empréstimo de {nomeCliente} na loja {self.nome} não finalizado. Motivo {error}.")
+            print(f"\nLoja: empréstimo em nome de {nomeCliente} na loja {self.nome} não finalizado. Motivo {error}.")
             return False
 
         except:
-            print(f"Loja: empréstimo de {nomeCliente} na loja {self.nome} não finalizado. Motivo: desconhecido")
+            print(f"\nLoja: empréstimo em nome de {nomeCliente} na loja {self.nome} não finalizado. Motivo: desconhecido")
             return False
 
     def calculaValorEmprestimo(self, nomeCliente):
@@ -174,61 +173,32 @@ class Loja(object):
         '''
         try:
             if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
+                raise TypeError("tipo de parâmetro inválido")
             
             if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise SystemError("cliente não possui empréstimo em seu nome")
 
-            quantidade = self.pegaQuantidadeDeBicicletas(nomeCliente)
-            fatorDesconto = self.determinaDesconto(nomeCliente)
-            modalidade = self.pegaModalidade(nomeCliente)
-            valorDaModalidade = self.pegaValorDa(modalidade)
+            quantidade = self.emprestimos[nomeCliente].quantidade
+            fatorDoTotalComDesconto = self.determinaDesconto(nomeCliente)
+            modalidade = self.emprestimos[nomeCliente].modalidade
+            valorDaModalidade = self.VALOR_POR_MODALIDADE[modalidade]
             periodos = self.calculaPeriodos(nomeCliente)
-            valorTotal = valorDaModalidade * periodos * fatorDesconto
+            valorTotal = valorDaModalidade *periodos *quantidade *fatorDoTotalComDesconto
 
-            print(f"Loja: {nomeCliente} utilizou {quantidade} bicicletas na modalidade {modalidade} por {periodos} {modalidade}(s) cada uma no valor de R$ {valorDaModalidade} e com {(1-fatorDesconto)*100}\% de desconto, totalizando R$ {valorTotal}.")
+            print(f"\nLoja: {nomeCliente} utilizou {quantidade} bicicletas na modalidade {modalidade} por {periodos} {modalidade}(s) cada uma no valor de R$ {valorDaModalidade} e com {(1-fatorDoTotalComDesconto)*100}\% de desconto, totalizando R$ {valorTotal}.")
             
             return valorTotal
 
         except TypeError as error:
-            print(f"Loja: Não foi possível calcular o valor do Empréstimo. Motivo: {error}")
+            print(f"\nLoja: Não foi possível calcular o valor do empréstimo. Motivo: {error}")
             return 0
 
         except SystemError as error:
-            print(f"Loja: Não foi possível calcular o valor do Empréstimo. Motivo: {error}")
+            print(f"\nLoja: Não foi possível calcular o valor do empréstimo. Motivo: {error}")
             return 0
 
         except:
-            print(f"Loja: Não foi possível calcular o valor do Empréstimo. Motivo: desconhecido")
-            return 0
-
-    def pegaQuantidadeDeBicicletas(self, nomeCliente):
-        '''
-        Recebe uma string nomeCliente. 
-        Devolve o inteiro quantidade de bicicletas em nome do cliente.
-        Devolve 0 se não for possível obter tal quantidade.
-        '''
-        try:
-            if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
-            
-            if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
-
-            quantidade = self.emprestimos[nomeCliente]["quantidade"]
-            print(f"Loja: {nomeCliente} possui {quantidade} bicicletas em seu nome.")
-            return quantidade
-        
-        except TypeError as error:
-            print(f"Loja: Não foi possível obter a quantidade de bicicletas em nome de {nomeCliente}. Motivo {error}.")
-            return 0
-
-        except SystemError as error:
-            print(f"Loja: Não foi possível obter a quantidade de bicicletas em nome de {nomeCliente}. Motivo {error}.")
-            return 0
-
-        except:
-            print(f"Loja: Não foi possível obter a quantidade de bicicletas em nome de {nomeCliente}. Motivo: desconhecido")
+            print(f"\nLoja: Não foi possível calcular o valor do empréstimo. Motivo: desconhecido")
             return 0
 
     def determinaDesconto(self, nomeCliente):
@@ -238,93 +208,29 @@ class Loja(object):
         '''
         try:
             if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
+                raise TypeError("tipo de parâmetro inválido")
             
             if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise SystemError("cliente não possui empréstimo em seu nome")
 
-            quantidade = self.pegaQuantidadeDeBicicletas(nomeCliente)
+            quantidade = self.emprestimos[nomeCliente].quantidade
             fracaoDoTotal = 1
             if quantidade >= 3:
                 fracaoDoTotal -= 0.3
-            print(f"Loja: {nomeCliente} faz jus a {(1-fracaoDoTotal)*100}\% de desconto no valor total.")
+            print(f"\nLoja: {nomeCliente} faz jus a {(1-fracaoDoTotal)*100}% de desconto no valor total por ter feito emprestimo de {quantidade} bicicleta(s).")
             return fracaoDoTotal
 
         except TypeError as error:
-            print(f"Loja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo {error}.")
+            print(f"\nLoja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo {error}.")
             return -1
 
         except SystemError as error:
-            print(f"Loja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo {error}.")
+            print(f"\nLoja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo {error}.")
             return -1
 
         except:
-            print(f"Loja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo: desconhecido")
+            print(f"\nLoja: Não foi possível verificar se {nomeCliente} tem direito a desconto. Motivo: desconhecido")
             return -1
-
-    def pegaModalidade(self, nomeCliente):
-        '''
-        Recebe uma string nomeCliente. 
-        Devolve a string modalidade de empréstimo se for possível obtê-la e a string vazia em caso contrário.
-        '''
-        try:
-            if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
-            
-            if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
-
-            modalidade = self.emprestimos[nomeCliente]["modalidade"]
-            print(f"Loja: {nomeCliente} emprestou bicicletas na modalidade {modalidade}.")
-            return modalidade
-
-        except TypeError as error:
-            print(f"Loja: Não foi possível obter a modalidade de empréstimo em nome de {nomeCliente}. Motivo {error}.")
-            return ""
-
-        except SystemError as error:
-            print(f"Loja: Não foi possível obter a modalidade de empréstimo em nome de {nomeCliente}. Motivo {error}.")
-            return ""
-
-        except:
-            print(f"Loja: Não foi possível obter a modalidade de empréstimo em nome de {nomeCliente}. Motivo: desconhecido")
-            return ""
-
-    def pegaValorDa(self, modalidade):
-        '''
-        Recebe uma string modalidade. 
-        Devolve o valor da modalidade se for possível obter tal valor.
-        Devolve 0 em caso contrário.
-        '''
-        try:
-            if not isinstance(modalidade, str):
-                raise TypeError("tipo de parâmetro inválido.")
-            
-            if modalidade not in self.MODALIDADES_DISPONIVEIS:
-                raise ValueError("modalidade inválida.")
-
-            valorDaModalidade = {
-                "Hora": self.VALOR_HORA,
-                "Dia": self.VALOR_DIA,
-                "Semana": self.VALOR_SEMANA
-            }
-            
-            valorModalidade = valorDaModalidade[modalidade]
-            print(f"Loja: a modalidade {modalidade} custa R$ {valorModalidade} por período.")
-
-            return valorModalidade
-        
-        except TypeError as error:
-            print(f"Loja: Não foi possível obter o valor da modalidade {modalidade}. Motivo {error}.")
-            return 0
-
-        except SystemError as error:
-            print(f"Loja: Não foi possível obter o valor da modalidade {modalidade}. Motivo {error}.")
-            return 0
-
-        except:
-            print(f"Loja: Não foi possível obter o valor da modalidade {modalidade}. Motivo: desconhecido")
-            return 0
     
     def calculaPeriodos(self, nomeCliente):
         '''
@@ -334,110 +240,81 @@ class Loja(object):
         '''
         try:
             if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
+                raise TypeError("tipo de parâmetro inválido")
             
             if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise SystemError("cliente não possui empréstimo em seu nome")
 
             tempoDoPeriodo = {
                 "Hora": timedelta(hours=1),
                 "Dia": timedelta(days=1),
                 "Semana": timedelta(weeks=1)
             }
-            tempoEmprestimo = self.calculaTempoTotalEmprestimo(nomeCliente)
-            modalidade = self.pegaModalidade(nomeCliente)
-            periodos = math.ceil(tempoEmprestimo / tempoDoPeriodo(modalidade))
-            print(f"Loja: {nomeCliente} emprestou bicicleta(s) na modalidade {modalidade} por {periodos} {modalidade}(s).")
+            retirada = self.emprestimos[nomeCliente].retirada
+            devolucao = self.emprestimos[nomeCliente].devolucao
+            tempoEmprestimo = devolucao - retirada
+            modalidade = self.emprestimos[nomeCliente].modalidade
+            periodos = math.ceil(tempoEmprestimo / tempoDoPeriodo[modalidade])
+
+            print(f"\nLoja: {nomeCliente} emprestou bicicleta(s) na modalidade {modalidade} por {periodos} {modalidade}(s).")
 
             return periodos
         
         except TypeError as error:
-            print(f"Loja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo {error}.")
+            print(f"\nLoja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo {error}.")
             return 0
 
         except SystemError as error:
-            print(f"Loja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo {error}.")
+            print(f"\nLoja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo {error}.")
             return 0
 
         except:
-            print(f"Loja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo: desconhecido")
-            return 0
-
-    def calculaTempoTotalEmprestimo(self, nomeCliente):
-        '''
-        Recebe uma string nomeCliente. 
-        Devolve o "timedelta" diferença de tempo entre a retirada e a devolução das bicicletas se o cálculo da diferença for efetuado.
-        Devolve 0 em caso contrário.
-        '''
-        try:
-            if not isinstance(nomeCliente, str):
-                raise TypeError("tipo de parâmetro inválido.")
-            
-            if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
-
-            retirada = self.emprestimos[nomeCliente]["retirada"]
-            devolucao = self.emprestimos[nomeCliente]["devolucao"]
-            tempoTotalDoEmprestimo = devolucao - retirada
-
-            print(f"Loja: {nomeCliente} emprestou bicicleta(s) por {tempoTotalDoEmprestimo}.")
-
-            return tempoTotalDoEmprestimo
-
-        except TypeError as error:
-            print(f"Loja: Não foi possível obter o tempo total do empréstimo em nome de {nomeCliente}. Motivo {error}.")
-            return 0
-
-        except SystemError as error:
-            print(f"Loja: Não foi possível obter o tempo total do empréstimo em nome de {nomeCliente}. Motivo {error}.")
-            return 0
-
-        except:
-            print(f"Loja: Não foi possível obter ao tempo total do empréstimo em nome de {nomeCliente}. Motivo: desconhecido")
+            print(f"\nLoja: Não foi possível obter a quantidade de periodos do empréstimo em nome de {nomeCliente}. Motivo: desconhecido")
             return 0
 
     def recebePagamento(self, nomeCliente, valorPago):
         '''
         Recebe uma string nomeCliente e um float valorPago.
-        Devolve 0 se o valor do empréstimo for liquidado e -1 em caso contrário.
+        Devolve o valor do empréstimo se o mesmo for liquidado e 0 em caso contrário.
         '''
         try:
-            if not (isinstance(nomeCliente, str) and isinstance(valorPago, float)):
-                raise TypeError("tipos de parâmetros inválidos.")
+            if not (isinstance(nomeCliente, str) and isinstance(float(valorPago), float)):
+                raise TypeError("tipos de parâmetros inválidos")
             
             if valorPago < 0:
-                raise ValueError("valor de pagamento inválido.")
+                raise ValueError("valor de pagamento inválido")
 
             if nomeCliente not in self.emprestimos:
-                raise SystemError("cliente não possui empréstimo em seu nome.")
+                raise SystemError("cliente não possui empréstimo em seu nome")
 
-            valorDevido = self.emprestimos[nomeCliente]["valor"]
+            valorDevido = self.emprestimos[nomeCliente].valor
             if valorPago < valorDevido:
-                raise SystemError("valor de pagamento menor do que o devido.")
+                raise SystemError("valor de pagamento menor do que o devido")
 
-            print(f"Loja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta de R$ {valorDevido} em nome de {nomeCliente} efetuado com sucesso. Caixa {self.caixa}")
             self.caixa += valorPago
             if valorPago > valorDevido:
                 troco = valorPago - valorDevido
                 self.caixa -= troco
 
-            return 0
+            print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta de R$ {valorDevido} em nome de {nomeCliente} efetuado com sucesso. Caixa {self.caixa}.")
+
+            return valorDevido
 
         except TypeError as error:
-            print(f"Loja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}")
-            return -1
+            print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}.")
+            return 0
 
         except ValueError as error:
-            print(f"Loja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}")
-            return -1
+            print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}.")
+            return 0
 
         except SystemError as error:
-            print(f"Loja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}")
-            return -1
+            print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: {error}.")
+            return 0
 
         except:
-            print(f"Loja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: desconhecido.")
-            return -1
+            print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: desconhecido.")
+            return 0
 
 # ******************* POR FAZER ************************
 # 

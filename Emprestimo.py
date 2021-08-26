@@ -10,5 +10,5 @@ class Emprestimo(object):
         self.modalidade = modalidade
         self.retirada = datetime.now().astimezone(self.HORARIO_BRASILIA)
         self.devolucao = self.retirada
-        self.valor = 0.0    
+        self.valor = 0.0
         
