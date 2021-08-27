@@ -1,22 +1,23 @@
-from Loja import Loja
 from Cliente import Cliente
-from Emprestimo import Emprestimo
-import unittest 
+from Loja import Loja
+import unittest
 
 
-
-class classIntegrationLoja(unittest.TestCase):
+class Teste(unittest.TestCase):
     
-    def TetsTest(self):
-        c = Loja.Loja('Victor','10')
+    def testechecaNomeLoja(self):
+        loja = Loja("Bikes", 13)
+        cliente = Cliente("Diolan")
+        self.assertEqual(cliente.solicitaEmprestimo(loja,2,"Hora"),3)
+        
+        
+        
+        
 
-        menssage = "Teste assetIsInstance"
-        self.assertIsNotInstance(c,Loja.Loja('Victor','10'),menssage)
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
+
     
 
 
