@@ -4,9 +4,21 @@ class Cliente(object):
     MODALIDADES_DISPONIVEIS = ["Hora", "Dia", "Semana"]
 
     def __init__(self, nome) -> None:
-        self.nome = nome
-        self.quantidadeBicicletas = 0
-        self.saldo = 0
+        try:
+            if not isinstance(nome, str):
+                raise TypeError("tipo de parametro invalido")
+
+            print(f"\nCliente: instanciando a classe sob o nome {nome}.")
+
+            self.nome = nome
+            self.quantidadeBicicletas = 0
+            self.saldo = 0
+
+        except SystemError as error:
+            print(f"\nCliente: classe nao instanciada sob o nome {nome}. Motivo: {error}.")
+
+        except:
+            print(f"\nCliente: classe nao instanciada sob o nome {nome}. Motivo: desconhecido.")
 
     def solicitaEmprestimo(self, loja, quantidade, modalidade):
         '''

@@ -14,10 +14,22 @@ class Loja(object):
     MODALIDADES_DISPONIVEIS = ["Hora", "Dia", "Semana"]
 
     def __init__(self, nome, estoque) -> None:
-        self.nome = nome
-        self.estoque = estoque
-        self.emprestimos = {}
-        self.caixa = 0
+        try:
+            if not (isinstance(nome, str) and isinstance(int(estoque), int)):
+                raise TypeError("tipos de parâmetros inválidos")
+            
+            print(f"\nLoja: instanciando a classe sob o nome {nome} e com estoque de {estoque} bicicleta(s).")
+
+            self.nome = nome
+            self.estoque = estoque
+            self.emprestimos = {}
+            self.caixa = 0
+        
+        except TypeError as error:
+            print(f"\nLoja: classe nao instanciada sob o nome {nome} e com estoque de {estoque} bicicleta(s). Motivo: {error}.")
+
+        except:
+            print(f"\nLoja: classe nao instanciada sob o nome {nome} e com estoque de {estoque} bicicleta(s). Motivo: desconhecido.")
 
     def recebePedido(self, nomeCliente, quantidade, modalidade):
         '''
