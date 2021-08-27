@@ -4,11 +4,13 @@ import unittest
 
 
 class Teste(unittest.TestCase):
-    
+    def setUp(self): 
+        self.loja = Loja("BikeShop's", 10)
+        self.cliente = Cliente("Victor")
+
     def testechecaNomeLoja(self):
-        loja = Loja("Bikes", 13)
-        cliente = Cliente("Diolan")
-        self.assertEqual(cliente.solicitaEmprestimo(loja,2,"Hora"),3)
+    
+        self.assertEqual(self.cliente.solicitaEmprestimo(self.loja,2,"Hora"),2)
         
         
         
