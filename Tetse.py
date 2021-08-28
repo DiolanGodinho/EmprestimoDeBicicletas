@@ -10,7 +10,8 @@ class Teste(unittest.TestCase):
 
     def testechecaNomeLoja(self):
     
-        self.assertEqual(self.cliente.solicitaEmprestimo(self.loja,2,"Hora"),2)
+        self.assertEqual(self.cliente.solicitaEmprestimo(self.loja,2,"Hora")\
+            ,2)
         
         
         
