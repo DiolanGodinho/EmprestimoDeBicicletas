@@ -308,6 +308,8 @@ class Loja(object):
                 troco = valorPago - valorDevido
                 self.caixa -= troco
 
+            del self.emprestimos[nomeCliente]
+
             print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta de R$ {valorDevido} em nome de {nomeCliente} efetuado com sucesso. Caixa {self.caixa}.")
 
             return valorDevido
