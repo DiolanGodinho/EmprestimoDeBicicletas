@@ -11,8 +11,8 @@ class Emprestimo(object):
             if not isinstance(modalidade, str):
                 raise TypeError("tipo do parametro 'modalidade' incorreto")
 
-            if not isinstance(int(quantidade), str):
-                raise TypeError("tipos do parametro 'quantidade' incorreto")
+            if not isinstance(int(quantidade), int):
+                raise TypeError("tipo do parametro 'quantidade' incorreto")
 
             print(f"\nEmprestimo: instanciando a classe com o cliente {nomeCliente} emprestando na loja '{nomeloja}' {quantidade} biciclet(s) na modalidade '{modalidade}'.")
 

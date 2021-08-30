@@ -1,8 +1,18 @@
 from Cliente import Cliente
 from Loja import Loja
 
-loja = Loja("Bikes", 13)
-cliente = Cliente("Diolan")
-cliente.solicitaEmprestimo(loja, 2, "Hora")
-cliente.devolveBicicletas(loja)
-cliente.pagaEmprestimo(2000, loja)
+lojaRV = Loja("Rio Vermelho", 13)
+diolan = Cliente("Diolan")
+diolan.solicitaEmprestimo(lojaRV, 2, "Hora")
+diolan.devolveBicicletas(lojaRV)
+diolan.pagaEmprestimo(2000, lojaRV)
+
+lojaBV = Loja("Boa Viagem", 18)
+victor = Cliente("Victor")
+victor.solicitaEmprestimo(lojaBV, 4, "Semana")
+victor.devolveBicicletas(lojaBV)
+# cliente.pagaEmprestimo(2000, lojaBV)
+
+brian = Cliente("Brian")
+brian.solicitaEmprestimo(lojaRV, 1, "Dia")
+brian.devolveBicicletas(lojaRV)

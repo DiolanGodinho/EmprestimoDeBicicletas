@@ -49,6 +49,9 @@ class Loja(object):
             if quantidade > self.estoque:
                 raise SystemError("estoque indisponível")
 
+            if nomeCliente in self.emprestimos:
+                raise SystemError("cliente com empréstimo em andamento")
+
             print(f"\nLoja: pedido em nome de {nomeCliente} de {quantidade} bicicletas na modalidade {modalidade} na loja {self.nome} aceito.")
             return True
             
@@ -85,9 +88,6 @@ class Loja(object):
 
             if quantidade > self.estoque:
                 raise SystemError("estoque indisponível")
-
-            if nomeCliente in self.emprestimos:
-                raise SystemError("cliente com empréstimo em andamento")
 
             self.estoque -= quantidade
             self.emprestimos[nomeCliente] = Emprestimo(nomeCliente, self.nome, quantidade, modalidade)
@@ -197,7 +197,7 @@ class Loja(object):
             periodos = self.calculaPeriodos(nomeCliente)
             valorTotal = valorDaModalidade *periodos *quantidade *fatorDoTotalComDesconto
 
-            print(f"\nLoja: {nomeCliente} utilizou {quantidade} bicicletas na modalidade {modalidade} por {periodos} {modalidade}(s) cada uma no valor de R$ {valorDaModalidade} e com {(1-fatorDoTotalComDesconto)*100}\% de desconto, totalizando R$ {valorTotal}.")
+            print(f"\nLoja: {nomeCliente} utilizou {quantidade} bicicletas na modalidade {modalidade} por {periodos} {modalidade}(s) cada uma no valor de R$ {valorDaModalidade} e com {(1-fatorDoTotalComDesconto)*100}% de desconto, totalizando R$ {valorTotal}.")
             
             return valorTotal
 
@@ -328,20 +328,16 @@ class Loja(object):
             print(f"\nLoja: recebimento na loja {self.nome} do valor de R$ {valorPago} como pagamento da conta em nome de {nomeCliente} não efetuado. Caixa {self.caixa}. Motivo: desconhecido.")
             return 0
 
-# ******************* POR FAZER ************************
+# ******************* OBSERVACOES ************************
 # 
 #  Ver necessidade de getters e setters e implementá-los
 #  se for o caso.
 #  
 #  Estudar necessidade de atributos e metodos privados
 # 
-# ******************************************************
-
-# *************** Ver com Victor ***********************
-# 
 #  Como implementar emprestimo com retirada e devolução
 # em lojas diferentes.
 # 
 #  Necessidade de repetiçao dos blocos try/except.
 # 
-# ******************************************************
+# *********************************************************

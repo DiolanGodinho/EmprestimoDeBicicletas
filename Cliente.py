@@ -34,7 +34,7 @@ class Cliente(object):
             if modalidade not in self.MODALIDADES_DISPONIVEIS:
                 raise SystemError("modalidade inválida.")
 
-            print(f"\nCliente: solicitação de {self.nome} de {quantidade} bicicleta(s) na modalidade {modalidade} efetuada com sucesso. Bicicletas {self.quantidadeBicicletas}.")
+            print(f"\nCliente: solicitação de {self.nome} de {quantidade} bicicleta(s) na modalidade {modalidade} efetuada com sucesso.")
 
             pedidoAceito = loja.recebePedido(self.nome, quantidade, modalidade)
             if pedidoAceito:
@@ -81,11 +81,7 @@ class Cliente(object):
             print(f"\nCliente: devolução da(s) bicicleta(s) em nome de {self.nome} na loja {loja.nome} não concluída. Bicicletas {self.quantidadeBicicletas}. Valor do emprestimo R$ {self.saldo}. Motivo: {error}.")
             return 0
 
-        except ValueError as error:
-            print(f"\nCliente: devolução da(s) bicicleta(s) em nome de {self.nome} na loja {loja.nome} não concluída. Bicicletas {self.quantidadeBicicletas}. Valor do emprestimo R$ {self.saldo}. Motivo: {error}.")
-            return 0
-
-        except ValueError as error:
+        except SystemError as error:
             print(f"\nCliente: devolução da(s) bicicleta(s) em nome de {self.nome} na loja {loja.nome} não concluída. Bicicletas {self.quantidadeBicicletas}. Valor do emprestimo R$ {self.saldo}. Motivo: {error}.")
             return 0
 
@@ -103,6 +99,9 @@ class Cliente(object):
             
             if valorDesembolsado < self.saldo:
                 raise ValueError("valor desembolsado menor do que o devido")
+
+            if self.nome not in loja.emprestimos:
+                raise SystemError("loja de pagamento distinta da loja de retirada e devolucao da(s) bicicleta(s)")
             
             print(f"\nCliente: pagamento do cliente {self.nome} de R$ {self.saldo} com R$ {valorDesembolsado} na loja {loja.nome}.")
 
@@ -115,6 +114,10 @@ class Cliente(object):
             return -1
 
         except ValueError as error:
+            print(f"\nCliente: pagamento do cliente {self.nome} de {self.saldo} com {valorDesembolsado} na loja {loja.nome} não efetuado. Motivo: {error}.")
+            return -1
+
+        except SystemError as error:
             print(f"\nCliente: pagamento do cliente {self.nome} de {self.saldo} com {valorDesembolsado} na loja {loja.nome} não efetuado. Motivo: {error}.")
             return -1
 
